@@ -300,14 +300,14 @@ class Mysql extends Database_Abstract
 	{
 
 		$this->result = $this->db->prepare($this->query);
-
-		foreach($this->bindValues as $key=>$value)
-		{
-			if(is_int($value))
-			$this->result->bindValue($key , $value , PDO::PARAM_INT);
-			else
-			$this->result->bindValue($key , $value);
-		}
+		if(!empty($this->bindValues))
+			foreach($this->bindValues as $key=>$value)
+			{
+				if(is_int($value))
+				$this->result->bindValue($key , $value , PDO::PARAM_INT);
+				else
+				$this->result->bindValue($key , $value);
+			}
 
 		$this->result->execute();
 		return $this->result->rowCount();

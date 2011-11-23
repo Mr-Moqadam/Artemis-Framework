@@ -10,6 +10,8 @@ require_once('Abstract/Abstract_Controller.php');
 
 class Controller extends Abstract_Controller
 {
+	private $object;
+	
 	/*
 	 * view Object
 	 **/
@@ -44,90 +46,137 @@ class Controller extends Abstract_Controller
 	 **/
 	function __construct()
 	{
-		//parent::__construct();
+ 
 		$this->view = new Template(str_replace('Controller','',get_class($this)));
 		$this->input = new Input();
 			
 		if(!empty($this->helper))
 		{
-			$this->helper($this->helper);
+			if(is_array($this->helper))
+				$this->object['helper'] = $this->helper;
+			else 
+				$this->object['helper'][] = $this->helper;	
 		}
 		if(!empty($this->plugin))
 		{
-			$this->plugin($this->plugin);
+			if(is_array($this->plugin))
+				$this->object['plugin'] = $this->plugin;
+			else 
+				$this->object['plugin'][] = $this->plugin;	
 		}
 		if(!empty($this->model))
 		{
-			$this->model($this->model);
+			if(is_array($this->model))
+				$this->object['model'] = $this->model;
+			else 
+				$this->object['model'][] = $this->model;	
 		}
-			
+		
+ 
 			
 	}
 	
-	
 	/**
-	 * Load helpers
-	 *
-	 *
-	 **/
-	protected function helper($helper)
+	 * 
+	 *  
+	 * @param unknown_type $obName
+	 */
+	function __get($obName)
 	{
-		if(is_array($helper))
+		if(in_array($obName , $this->object['helper']))
 		{
-			array_map(array('Controller','helper') , $helper);
+			include_once('View/Helper/'.$obName.'.php');
+			if(!is_object($obName))
+				$this->view->$obName = new $obName;
 		}
-		else
+		elseif(in_array($obName , $this->object['plugin']))
 		{
-			include_once('View/Helper/'.$helper.'.php');
-			if(!is_object($helper))
-			$this->view->$helper = new $helper;
-		}
-	}
-	/**
-	 * Load plugin
-	 *
-	 *
-	 **/
-	protected function plugin($plugin)
-	{
-		if(is_array($plugin))
-		{
-			array_map(array('Controller','plugin') , $plugin);
-		}
-		else
-		{
-			include_once('Controller/Plugin/'.$plugin.'.php');
+			include_once('Controller/Plugin/'.$obName.'.php');
 			if(!is_object($plugin))
-			//$this->$helper =  new $helper();
-			$this->$plugin = new $plugin;
+				return new $obName;
 		}
-	}
-
-
-
-	/**
-	 *
-	 * Load Model
-	 *
-	 **/
-
-	protected function model($model)
-	{
-		if(is_array($model))
+		elseif(in_array($obName , $this->object['model']))
 		{
-			array_map(array('Controller','model'),$model);
-		}
-		else
-		{
-			$file = APP_PATH.'models/'.strtolower($model).'.php';
+			$file = APP_PATH.'models/'.strtolower($obName).'.php';
 			if(!file_exists($file))
 			{
-				die("$model Not found");
+				die("$obName Not found");
 			}
 			include_once $file;
-			
-			$this->$model = AppModel::factory(new $model());
+			echo $file;
+			return AppModel::factory(new $obName());
+
 		}
+ 		else
+ 		{
+ 			throw new Exception("$obName File Not Found");	
+ 		}
 	}
+	
+ 	
+	// /**
+	 // * Load helpers
+	 // *
+	 // *
+	 // **/
+	// protected function helper($helper)
+	// {
+		// if(is_array($helper))
+		// {
+			// array_map(array('Controller','helper') , $helper);
+		// }
+		// else
+		// {
+			// include_once('View/Helper/'.$helper.'.php');
+			// if(!is_object($helper))
+			// $this->view->$helper = new $helper;
+		// }
+	// }
+	// /**
+	 // * Load plugin
+	 // *
+	 // *
+	 // **/
+	// protected function plugin($plugin)
+	// {
+		// if(is_array($plugin))
+		// {
+			// array_map(array('Controller','plugin') , $plugin);
+		// }
+		// else
+		// {
+			// include_once('Controller/Plugin/'.$plugin.'.php');
+			// if(!is_object($plugin))
+			$this->$helper =  new $helper();
+			// $this->$plugin = new $plugin;
+		// }
+	// }
+	
+	
+	
+	// /**
+	 // *
+	 // * Load Model
+	 // *
+	 // **/
+	
+	// protected function model($model)
+	// {
+		// if(is_array($model))
+		// {
+			// array_map(array('Controller','model'),$model);
+		// }
+		// else
+		// {
+			// $file = APP_PATH.'models/'.strtolower($model).'.php';
+			// if(!file_exists($file))
+			// {
+				// die("$model Not found");
+			// }
+			// include_once $file;
+			
+			// $this->$model = AppModel::factory(new $model());
+		// }
+	// }
 	
 }

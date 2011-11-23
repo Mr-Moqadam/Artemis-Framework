@@ -14,7 +14,7 @@ $config['username'] = 'root';
 $config['password'] = '';
 
 /**
- * Database nae
+ * Database name
  * 
  */
 $config['database'] = 'ar_blog';
