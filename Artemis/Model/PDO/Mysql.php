@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Artemis Framework
  *
  */
 
+require_once 'Model/Abstract/Database_Abstract.php';
 
-require_once('Model/Abstract/Database_Abstract.php');
 class Mysql extends Database_Abstract
 {
 	private $bindValues;
@@ -395,11 +396,8 @@ class Mysql extends Database_Abstract
 		}
 
 		$up = implode(',' , $up);
-
 		$sql = "UPDATE $this->table SET $up WHERE $this->pk = :$this->pk";
 		$this->cu_fields[$this->pk] = $pk_value;
-
-
 		$this->result = $this->db->prepare($sql);
 
 		foreach($this->cu_fields as $f=>$v)
@@ -436,8 +434,4 @@ class Mysql extends Database_Abstract
 	{
 		return $this->query;
 	}
-
-
-
-
 }

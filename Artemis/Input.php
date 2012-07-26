@@ -2,8 +2,6 @@
  
 class Input
 {
-	
-
 	function __construct()
 	{
 	}
@@ -58,8 +56,6 @@ class Input
 		}
 	}
 	
-	
-	
 	/**
 	 * Cleaning Input Script
 	 * Copyright 2009 - www.pgmr.co.uk - contact@pgmr.co.uk
@@ -74,5 +70,4 @@ class Input
 			$str = strip_tags(htmlspecialchars($str));
 		return $str;
 	}
-	
 }

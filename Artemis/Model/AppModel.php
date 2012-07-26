@@ -1,4 +1,5 @@
 <?php
+
 /*
 * Artemis Framework
 * AppModel Class
@@ -9,13 +10,11 @@
  
 class AppModel 
 {
-	
-	 
 	function AppModel()
 	{
 	 
 	}
-	
+
 	static function factory(&$model)
 	{
 		$table = get_class($model);
@@ -38,9 +37,8 @@ class AppModel
 			return new $class($table , $pk , $validation);	
 		}
 		
-		require_once('Model/Mysql.php');
+		require_once 'Model/Mysql.php';
 		return new Mysql($table ,$pk  , $validation ); 
-		
 	}
 	
 	function  __toString()

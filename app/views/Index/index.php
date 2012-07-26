@@ -1,4 +1,3 @@
-<h1><?php
-echo $this->post;
-?>
-	</h1>
+<h1>
+<?php echo $this->post; ?>
+</h1>
