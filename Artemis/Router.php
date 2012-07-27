@@ -1,4 +1,5 @@
 <?php
+
 /**
 * Artemis Framework
 * Router class
@@ -9,7 +10,6 @@
 
 class Router
 {
-	
 	/**
 	* store controller name
 	*
@@ -46,7 +46,6 @@ class Router
 	*@access private
 	*/
 	private static $base_controller;
-	
 
 	/**
 	* set base controller
@@ -146,6 +145,4 @@ class Router
 		//execute action
 		call_user_func_array(array($controller,$action), self::$params);
 	}
-	
-
 }

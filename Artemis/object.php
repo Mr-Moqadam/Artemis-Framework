@@ -1,4 +1,5 @@
 <?php 
+
 /*
 * Artemis Framework
 * 
@@ -8,15 +9,13 @@
  
 class Object
 {
-
 	function Object()
 	{
- 
+		return;
 	}
-	
 
 	function __destruct()
 	{
-		unset($this);	
+		$this = NULL;
 	}
 }
