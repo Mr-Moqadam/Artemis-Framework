@@ -44,7 +44,6 @@ abstract class Database_Abstract
 		return implode('</br>' , $this->error);
 	}
 	
-	
 	/**
 	 * 
 	 * return last query string

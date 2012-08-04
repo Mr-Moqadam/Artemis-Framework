@@ -1,5 +1,7 @@
 <?php
-require_once('Model/Abstract/Database_Abstract.php');
+
+require_once 'Model/Abstract/Database_Abstract.php';
+
 class Mysql extends Database_Abstract
 {
 	private $table;
